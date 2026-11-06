@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dulce Mirada | Sistema de Gestión de Citas y Servicios - Chepén 2026</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script src="js/config/tailwind-config.js"></script>
+
+    <!-- Estilos propios -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen flex flex-col selection:bg-berry selection:text-white">
+
+    <!-- ============================================================================ -->
+    <!-- BARRA DE EVALUACIÓN INGENIERÍA DE SOFTWARE - UCV CHEPÉN 2026                 -->
+    <!-- ============================================================================ -->
+    <div class="bg-plum text-white text-xs py-2 px-3 sm:px-6 border-b border-berry/40 sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+                <span class="bg-gold text-plum font-bold px-2 py-0.5 rounded text-[10px] tracking-wider uppercase flex items-center gap-1">
+                    <i class="fa-solid fa-graduation-cap"></i> UCV 2026 - RUP
+                </span>
+                <span class="hidden md:inline text-rosequartz font-medium">
+                    Simulador de Actores y Casos de Uso (CU01–CU22):
+                </span>
+            </div>
+
+            <!-- Botones de cambio instantáneo de Actor para demostración -->
+            <div class="flex flex-wrap items-center gap-1.5">
+                <button onclick="app.switchDemoRole('PUBLIC')" id="demo-btn-PUBLIC" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition flex items-center gap-1.5 text-[11px] font-medium">
+                    <i class="fa-solid fa-globe text-rosequartz"></i> Vista Pública / Login
+                </button>
+                <button onclick="app.switchDemoRole('ADMINISTRADOR')" id="demo-btn-ADMINISTRADOR" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition flex items-center gap-1.5 text-[11px] font-medium">
+                    <i class="fa-solid fa-crown text-gold"></i> Administradora (Rosa Núñez)
+                </button>
+                <button onclick="app.switchDemoRole('CLIENTE')" id="demo-btn-CLIENTE" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition flex items-center gap-1.5 text-[11px] font-medium">
+                    <i class="fa-solid fa-user-check text-pink-300"></i> Cliente (María Torres)
+                </button>
+                <button onclick="app.switchDemoRole('PERSONAL')" id="demo-btn-PERSONAL" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition flex items-center gap-1.5 text-[11px] font-medium">
+                    <i class="fa-solid fa-wand-magic-sparkles text-emerald-300"></i> Personal (Valeria Mendoza)
+                </button>
+            </div>
+
+            <!-- Herramientas de Ingeniería y Base de Datos -->
+            <div class="flex items-center gap-2">
+                <button onclick="app.openEngineeringModal()" class="px-2.5 py-1 rounded-md bg-berry hover:bg-berrydark text-white font-semibold transition flex items-center gap-1.5 text-[11px] shadow-sm border border-pink-300/30">
+                    <i class="fa-solid fa-database"></i> Arquitectura RUP & SQL Server
+                </button>
+                <button onclick="app.confirmResetDatabase()" title="Restaurar datos originales de fábrica" class="px-2 py-1 rounded-md bg-white/10 hover:bg-red-500/80 text-white transition text-[11px]">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================================ -->
+    <!-- CABECERA PRINCIPAL (HEADER DINÁMICO SEGÚN SESIÓN)                            -->
+    <!-- ============================================================================ -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-rosequartz sticky top-[37px] z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo Dulce Mirada -->
+            <div onclick="app.handleLogoClick()" class="flex items-center gap-3 cursor-pointer group">
+                <div class="w-12 h-12 rounded-2xl luxury-gradient flex items-center justify-center text-white shadow-md group-hover:scale-105 transition">
+                    <svg class="w-7 h-7 text-rosequartz" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5V2m4.5 3.5l1.5-2m-10.5 2L6 3.5" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-luxury text-2xl font-bold text-plum tracking-tight">Dulce Mirada</span>
+                        <span class="hidden sm:inline-block text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-full bg-rosequartz/60 text-berry font-bold">Chepén</span>
+                    </div>
+                    <p class="text-xs text-berry/80 font-medium">Salón de Belleza & Cuidado Personal</p>
+                </div>
+            </div>
+
+            <!-- Navegación dinámica inyectada por InterfazPrincipal -->
+            <div id="header-nav-container" class="flex items-center gap-3"></div>
+        </div>
+    </header>
+
+    <!-- ============================================================================ -->
+    <!-- CONTENEDOR PRINCIPAL DE VISTAS (BOUNDARY CLASSES)                            -->
+    <!-- ============================================================================ -->
+    <main id="app-viewport" class="flex-grow">
+        <!-- Renderizado dinámico por el controlador de vistas -->
+    </main>
+
+    <!-- ============================================================================ -->
+    <!-- PIE DE PÁGINA INSTITUCIONAL                                                  -->
+    <!-- ============================================================================ -->
+    <footer class="bg-plum text-rosequartz/90 border-t border-berry/30 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-2.5 mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-berry flex items-center justify-center text-white">
+                            <i class="fa-solid fa-eye text-sm"></i>
+                        </div>
+                        <span class="font-luxury text-xl font-bold text-white">Dulce Mirada — Salón de Belleza</span>
+                    </div>
+                    <p class="text-xs text-rosequartz/80 leading-relaxed max-w-md mb-4">
+                        Brindamos servicios de belleza y cuidado personal a las clientas de la ciudad de Chepén, ofreciendo una atención responsable, cercana y orientada a sus necesidades.
+                    </p>
+                    <div class="flex flex-wrap gap-4 text-xs text-white/90">
+                        <span><i class="fa-solid fa-location-dot text-gold mr-1.5"></i> Calle Lima, Chepén - La Libertad, Perú</span>
+                        <span><i class="fa-solid fa-user-tie text-gold mr-1.5"></i> Resp: Rosa Elizabeth Núñez Castillo</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-gold mb-3">Horario de Atención</h4>
+                    <ul class="space-y-1.5 text-xs">
+                        <li class="flex justify-between"><span>Turno Mañana:</span> <span class="text-white font-medium">09:00 AM - 01:00 PM</span></li>
+                        <li class="flex justify-between"><span>Turno Tarde:</span> <span class="text-white font-medium">03:00 PM - 08:00 PM</span></li>
+                        <li class="flex justify-between"><span>Días de atención:</span> <span class="text-white font-medium">Lunes a Sábado</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-gold mb-3">Proyecto Ingeniería de Sistemas</h4>
+                    <p class="text-[11px] leading-relaxed text-rosequartz/80">
+                        Universidad César Vallejo (UCV) — Filial Chepén 2026.<br>
+                        Metodología RUP (Rational Unified Process) · Arquitectura BCE · 22 Casos de Uso.
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-white/10 mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-rosequartz/60">
+                <p>© 2026 Salón de Belleza "Dulce Mirada" - Chepén. Todos los derechos reservados.</p>
+                <p>Equipo de Desarrollo: Chiquinta J. · Muñoz A. · Uceda A. · Miranda J. | Docente: Ing. Joe Erick Flores Soriano</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================================================ -->
+    <!-- CONTENEDOR DE MODALES Y NOTIFICACIONES TOAST                                 -->
+    <!-- ============================================================================ -->
+    <div id="modal-root" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-plum/60 backdrop-blur-sm overflow-y-auto">
+        <div id="modal-content" class="bg-white rounded-3xl shadow-2xl border border-rosequartz max-w-2xl w-full overflow-hidden animate-fade-in my-8"></div>
+    </div>
+
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+    <!-- ============================================================================ -->
+    <!-- LÓGICA DE INGENIERÍA DE SOFTWARE: RUP (ENTITY - CONTROL - BOUNDARY)          -->
+    <!-- ============================================================================ -->
+    <!-- Capa de entidades -->
+    <script src="js/models/entidades.js"></script>
+    <!-- Persistencia (localStorage) y datos semilla -->
+    <script src="js/data/database-service.js"></script>
+    <!-- Capa de control -->
+    <script src="js/controllers/control-autenticacion.js"></script>
+    <script src="js/controllers/control-clientes.js"></script>
+    <script src="js/controllers/control-servicios.js"></script>
+    <script src="js/controllers/control-horarios.js"></script>
+    <script src="js/controllers/control-citas.js"></script>
+    <script src="js/controllers/control-atencion.js"></script>
+    <!-- Capa de interfaz (núcleo + vistas por rol) -->
+    <script src="js/app/dulce-mirada-app.js"></script>
+    <script src="js/views/publico.js"></script>
+    <script src="js/views/cliente.js"></script>
+    <script src="js/views/admin-panel.js"></script>
+    <script src="js/views/admin-citas.js"></script>
+    <script src="js/views/admin-clientes.js"></script>
+    <script src="js/views/admin-servicios.js"></script>
+    <script src="js/views/admin-horarios.js"></script>
+    <script src="js/views/admin-personal.js"></script>
+    <script src="js/views/admin-reportes.js"></script>
+    <script src="js/views/personal.js"></script>
+    <script src="js/views/ingenieria.js"></script>
+    <!-- Arranque -->
+    <script src="js/main.js"></script>
+</body>
+</html>
