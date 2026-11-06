@@ -1,0 +1,49 @@
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #FDF6F8;
+    color: #4A1528;
+    overflow-x: hidden;
+}
+h1, h2, h3, .font-luxury {
+    font-family: 'Playfair Display', serif;
+}
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #FDF6F8;
+}
+::-webkit-scrollbar-thumb {
+    background: #E8B4C2;
+    border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #9E3356;
+}
+/* Animaciones suaves */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+    animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.glass-card {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(244, 211, 220, 0.8);
+}
+.luxury-gradient {
+    background: linear-gradient(135deg, #9E3356 0%, #4A1528 100%);
+}
+.rose-gradient {
+    background: linear-gradient(135deg, #FDF6F8 0%, #F4D3DC 100%);
+}
+.slot-btn {
+    transition: all 0.2s ease;
+}
+.slot-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
