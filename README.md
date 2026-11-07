@@ -90,7 +90,3 @@ HTML5 · CSS3 · JavaScript · Tailwind CSS · Font Awesome · SQL Server (scrip
 
 Chiquinta Paredes, Jaime Roberto · Muñoz Cáceda, Azumi Yireth · Uceda Rivera, Astrid Tayri · Miranda Bustamante, Junior Alexander.
 Docente: Ing. Joe Erick Flores Soriano. Universidad César Vallejo, Chepén, 2026.
-
-## Licencia
-
-MIT. Consulta `LICENSE`.
