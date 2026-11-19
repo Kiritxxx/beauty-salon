@@ -1,6 +1,6 @@
-/* Capa de control (Control) · ControlCitas (CU12–CU17, CU20) */
+/* Capa de control (Control) · ControlCitas (CU12–CU17, CU19, CU20) */
 
-// ControlCitas (CU12, CU13, CU14, CU15, CU16, CU17)
+// ControlCitas (CU12, CU13, CU14, CU15, CU16, CU17, CU19, CU20)
 class ControlCitas {
     constructor(db, controlHorarios) {
         this.db = db;
@@ -69,5 +69,23 @@ class ControlCitas {
         }
         DatabaseService.save(this.db);
         return { exito: true, mensaje: `La cita #${idCita} ha sido cancelada.` };
+    }
+
+    // CU19: Consultar agenda asignada a un personal
+    consultarAgenda(idPersonal, filtroFecha = '') {
+        return this.db.citas.filter(c => {
+            const coincidePersonal = c.idPersonal === parseInt(idPersonal);
+            const coincideFecha = filtroFecha ? c.fecha === filtroFecha : true;
+            return coincidePersonal && coincideFecha;
+        }).sort((a, b) => (a.fecha + a.hora).localeCompare(b.fecha + b.hora));
+    }
+
+    // CU20: Actualizar estado de cita
+    actualizarEstado(idCita, nuevoEstado) {
+        const cita = this.db.citas.find(c => c.idCita === parseInt(idCita));
+        if (!cita) return { exito: false, mensaje: 'Cita no localizada.' };
+        cita.estado = nuevoEstado;
+        DatabaseService.save(this.db);
+        return { exito: true, mensaje: `Estado de la cita #${idCita} actualizado a "${nuevoEstado}".` };
     }
 }
