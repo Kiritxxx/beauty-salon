@@ -48,7 +48,7 @@ Object.assign(DulceMiradaApp.prototype, {
     renderClientDashboardView() {
         const idCliente = this.activeProfile.entidad.idCliente;
         const misCitas = this.db.citas.filter(c => c.idCliente === idCliente).map(c => this.enrichCita(c));
-        const citasActivas = misCitas.filter(c => c.estado === 'Pendiente' || c.estado === 'Confirmada' || c.estado === 'En Atención');
+        const citasActivas = misCitas.filter(c => c.estado === 'Pendiente' || c.estado === 'Confirmada');
         const citasAtendidas = misCitas.filter(c => c.estado === 'Atendida');
 
         return `
@@ -126,7 +126,7 @@ Object.assign(DulceMiradaApp.prototype, {
                                 <span class="font-bold text-plum">${this.activeProfile.entidad.correo}</span>
                             </div>
                             <div class="flex justify-between py-2">
-                                <span class="text-plum/60">Atenciones Recibidas:</span>
+                                <span class="text-plum/60">Citas Atendidas:</span>
                                 <span class="font-bold text-berry">${citasAtendidas.length} sesiones</span>
                             </div>
                         </div>
@@ -432,7 +432,7 @@ Object.assign(DulceMiradaApp.prototype, {
                 <div class="bg-white rounded-3xl p-6 border border-rosequartz shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                         <span class="text-[11px] font-bold uppercase tracking-wider text-berry">RF14 · RF16 · RF17 · CU14 Consultar Citas y CU17 Historial</span>
-                        <h2 class="text-2xl font-bold text-plum">Mis Citas y Ficha de Atenciones</h2>
+                        <h2 class="text-2xl font-bold text-plum">Mis Citas</h2>
                     </div>
                     <button onclick="app.navigate('CLIENT_BOOK')" class="px-4 py-2.5 rounded-xl luxury-gradient text-white text-xs font-bold shadow-sm">
                         <i class="fa-solid fa-plus mr-1"></i> Nueva Reserva
@@ -486,7 +486,6 @@ Object.assign(DulceMiradaApp.prototype, {
         const map = {
             'Pendiente': 'bg-amber-100 text-amber-800 border-amber-300',
             'Confirmada': 'bg-sky-100 text-sky-800 border-sky-300',
-            'En Atención': 'bg-purple-100 text-purple-800 border-purple-300',
             'Atendida': 'bg-emerald-100 text-emerald-800 border-emerald-300',
             'Cancelada': 'bg-rose-100 text-rose-800 border-rose-300'
         };
@@ -513,15 +512,6 @@ Object.assign(DulceMiradaApp.prototype, {
                     <div><span class="text-plum/60 block">Costo del Servicio:</span><span class="font-bold text-berry text-sm">S/ ${c.servicio.precio.toFixed(2)} (${c.servicio.duracion} min)</span></div>
                     <div class="sm:col-span-2"><span class="text-plum/60 block">Observaciones:</span><span class="font-medium text-plum">${c.observacion || 'Sin observaciones registradas.'}</span></div>
                 </div>
-
-                ${c.atencion ? `
-                    <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs space-y-1.5 mb-5">
-                        <p class="font-bold text-emerald-900 uppercase tracking-wider text-[10px]"><i class="fa-solid fa-clipboard-check mr-1"></i> Ficha de Atención Registrada (CU21)</p>
-                        <p class="text-emerald-950"><b>Procedimiento realizado:</b> ${c.atencion.descripcion}</p>
-                        <p class="text-emerald-800"><b>Productos aplicados:</b> ${c.atencion.productosUtilizados || 'Estándar de salón'}</p>
-                        <p class="text-[11px] text-emerald-700">Fecha de atención: ${c.atencion.fechaAtencion}</p>
-                    </div>
-                ` : ''}
 
                 <div class="flex flex-wrap items-center justify-end gap-2.5 pt-3 border-t border-rosequartz">
                     ${(c.estado === 'Pendiente' || c.estado === 'Confirmada') ? `
