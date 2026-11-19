@@ -74,19 +74,8 @@ class Cita {
         this.idHorario = parseInt(idHorario);
         this.fecha = fecha; // YYYY-MM-DD
         this.hora = hora;   // HH:MM
-        this.estado = estado; // 'Pendiente' | 'Confirmada' | 'En Atención' | 'Atendida' | 'Cancelada'
+        this.estado = estado; // 'Pendiente' | 'Confirmada' | 'Atendida' | 'Cancelada'
         this.observacion = observacion;
-    }
-}
-
-class Atencion {
-    constructor(idAtencion, idCita, fechaAtencion, descripcion, productosUtilizados = '', estado = 'Completada') {
-        this.idAtencion = idAtencion;
-        this.idCita = parseInt(idCita);
-        this.fechaAtencion = fechaAtencion;
-        this.descripcion = descripcion;
-        this.productosUtilizados = productosUtilizados;
-        this.estado = estado;
     }
 }
 
