@@ -83,8 +83,8 @@ Object.assign(DulceMiradaApp.prototype, {
                             </div>
                             <div class="mt-6 pt-4 border-t border-rosequartz flex items-center justify-between text-xs">
                                 <span class="text-plum/80"><i class="fa-solid fa-shield-heart text-berry mr-1"></i> Reserva digital sin esperas</span>
-                                <button onclick="app.switchDemoRole('CLIENTE')" class="font-bold text-berry hover:underline">
-                                    Probar como Clienta →
+                                <button onclick="app.navigate('LOGIN')" class="font-bold text-berry hover:underline">
+                                    Reservar mi cita →
                                 </button>
                             </div>
                         </div>
@@ -241,7 +241,6 @@ Object.assign(DulceMiradaApp.prototype, {
         const res = this.ctrlAuth.validarCredenciales(u, p);
         if (res.valido) {
             this.loginWithUserObject(res.usuario);
-            this.updateDemoBarHighlight();
             this.renderHeader();
             this.renderViewport();
         }
@@ -257,7 +256,6 @@ Object.assign(DulceMiradaApp.prototype, {
             return;
         }
         this.loginWithUserObject(res.usuario);
-        this.updateDemoBarHighlight();
         this.renderHeader();
         this.renderViewport();
     },
@@ -269,7 +267,7 @@ Object.assign(DulceMiradaApp.prototype, {
                 <div class="bg-white rounded-3xl shadow-xl border border-rosequartz p-8 sm:p-10">
                     <span class="text-[11px] font-bold uppercase tracking-widest text-berry">RF01 · CU01 Registrar Cuenta de Clienta</span>
                     <h2 class="text-2xl sm:text-3xl font-bold text-plum mt-1 mb-2">Crear Cuenta en Dulce Mirada</h2>
-                    <p class="text-xs text-plum/70 mb-6">Complete sus datos personales para reservar citas y consultar su historial de atenciones.</p>
+                    <p class="text-xs text-plum/70 mb-6">Complete sus datos personales para reservar citas y consultar su historial de citas.</p>
 
                     <form onsubmit="app.handleRegisterSubmit(event)" class="space-y-4">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -333,7 +331,6 @@ Object.assign(DulceMiradaApp.prototype, {
         }
         this.showToast(res.mensaje, 'success', 'CU01: Cuenta Creada');
         this.loginWithUserObject(res.usuario);
-        this.updateDemoBarHighlight();
         this.renderHeader();
         this.renderViewport();
     },
