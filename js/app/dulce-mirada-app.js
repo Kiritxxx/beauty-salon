@@ -35,11 +35,9 @@ class DulceMiradaApp {
         this.ctrlServicios = new ControlServicios(this.db);
         this.ctrlHorarios = new ControlHorarios(this.db);
         this.ctrlCitas = new ControlCitas(this.db, this.ctrlHorarios);
-        this.ctrlAtencion = new ControlAtencion(this.db);
     }
 
     init() {
-        this.updateDemoBarHighlight();
         this.renderHeader();
         this.renderViewport();
     }
@@ -50,8 +48,7 @@ class DulceMiradaApp {
         const personal = this.db.personal.find(p => p.idPersonal === cita.idPersonal) || { nombres: 'Especialista', apellidos: '', cargo: 'Salón' };
         const servicio = this.db.servicios.find(s => s.idServicio === cita.idServicio) || { nombre: 'Servicio', precio: 0, duracion: 60 };
         const horario = this.db.horarios.find(h => h.idHorario === cita.idHorario) || { horaInicio: cita.hora, horaFin: '' };
-        const atencion = this.db.atenciones.find(a => a.idCita === cita.idCita) || null;
-        return { ...cita, cliente, personal, servicio, horario, atencion };
+        return { ...cita, cliente, personal, servicio, horario };
     }
 
     // Notificaciones Toast elegantes (Reemplazo total de alert)
@@ -96,29 +93,6 @@ class DulceMiradaApp {
         root.classList.remove('flex');
     }
 
-    // Cambio rápido de Actor desde la barra superior para exposición universitaria
-    switchDemoRole(targetRole) {
-        if (targetRole === 'PUBLIC') {
-            this.ctrlAuth.usuarioActual = null;
-            this.activeProfile = null;
-            this.currentRole = 'PUBLIC';
-            this.currentView = 'LANDING';
-            this.showToast('Vista pública activada. Puede explorar el catálogo o iniciar sesión.', 'info', 'Modo Visitante');
-        } else if (targetRole === 'ADMINISTRADOR') {
-            const user = this.db.usuarios.find(u => u.rol === 'ADMINISTRADOR');
-            this.loginWithUserObject(user);
-        } else if (targetRole === 'CLIENTE') {
-            const user = this.db.usuarios.find(u => u.nombreUsuario === 'mtorres') || this.db.usuarios.find(u => u.rol === 'CLIENTE');
-            this.loginWithUserObject(user);
-        } else if (targetRole === 'PERSONAL') {
-            const user = this.db.usuarios.find(u => u.nombreUsuario === 'vmendoza') || this.db.usuarios.find(u => u.rol === 'PERSONAL');
-            this.loginWithUserObject(user);
-        }
-        this.updateDemoBarHighlight();
-        this.renderHeader();
-        this.renderViewport();
-    }
-
     loginWithUserObject(user) {
         this.ctrlAuth.usuarioActual = user;
         this.activeProfile = this.ctrlAuth.identificarRol(user);
@@ -127,18 +101,6 @@ class DulceMiradaApp {
         if (user.rol === 'CLIENTE') this.currentView = 'CLIENT_PANEL';
         if (user.rol === 'PERSONAL') this.currentView = 'STAFF_PANEL';
         this.showToast(`Sesión iniciada como ${this.activeProfile.nombreMostrar} (${this.activeProfile.subtitulo}).`, 'success', 'CU02 / CU05: Acceso Autorizado');
-    }
-
-    updateDemoBarHighlight() {
-        ['PUBLIC', 'ADMINISTRADOR', 'CLIENTE', 'PERSONAL'].forEach(r => {
-            const btn = document.getElementById(`demo-btn-${r}`);
-            if (!btn) return;
-            if (this.currentRole === r) {
-                btn.className = 'px-2.5 py-1 rounded-md bg-gold text-plum font-bold transition flex items-center gap-1.5 text-[11px] shadow-sm';
-            } else {
-                btn.className = 'px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 text-white transition flex items-center gap-1.5 text-[11px] font-medium';
-            }
-        });
     }
 
     handleLogoClick() {
@@ -167,7 +129,6 @@ class DulceMiradaApp {
         this.activeProfile = null;
         this.currentRole = 'PUBLIC';
         this.currentView = 'LOGIN';
-        this.updateDemoBarHighlight();
         this.renderHeader();
         this.renderViewport();
         this.showToast(`Sesión finalizada de manera segura para ${nombre}.`, 'info', 'CU06: Cerrar Sesión');
