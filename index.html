@@ -21,51 +21,9 @@
 <body class="min-h-screen flex flex-col selection:bg-berry selection:text-white">
 
     <!-- ============================================================================ -->
-    <!-- BARRA DE EVALUACIÓN INGENIERÍA DE SOFTWARE - UCV CHEPÉN 2026                 -->
-    <!-- ============================================================================ -->
-    <div class="bg-plum text-white text-xs py-2 px-3 sm:px-6 border-b border-berry/40 sticky top-0 z-50 shadow-md">
-        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-            <div class="flex items-center gap-2">
-                <span class="bg-gold text-plum font-bold px-2 py-0.5 rounded text-[10px] tracking-wider uppercase flex items-center gap-1">
-                    <i class="fa-solid fa-graduation-cap"></i> UCV 2026 - RUP
-                </span>
-                <span class="hidden md:inline text-rosequartz font-medium">
-                    Simulador de Actores y Casos de Uso (CU01–CU22):
-                </span>
-            </div>
-
-            <!-- Botones de cambio instantáneo de Actor para demostración -->
-            <div class="flex flex-wrap items-center gap-1.5">
-                <button onclick="app.switchDemoRole('PUBLIC')" id="demo-btn-PUBLIC" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition flex items-center gap-1.5 text-[11px] font-medium">
-                    <i class="fa-solid fa-globe text-rosequartz"></i> Vista Pública / Login
-                </button>
-                <button onclick="app.switchDemoRole('ADMINISTRADOR')" id="demo-btn-ADMINISTRADOR" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition flex items-center gap-1.5 text-[11px] font-medium">
-                    <i class="fa-solid fa-crown text-gold"></i> Administradora (Rosa Núñez)
-                </button>
-                <button onclick="app.switchDemoRole('CLIENTE')" id="demo-btn-CLIENTE" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition flex items-center gap-1.5 text-[11px] font-medium">
-                    <i class="fa-solid fa-user-check text-pink-300"></i> Cliente (María Torres)
-                </button>
-                <button onclick="app.switchDemoRole('PERSONAL')" id="demo-btn-PERSONAL" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition flex items-center gap-1.5 text-[11px] font-medium">
-                    <i class="fa-solid fa-wand-magic-sparkles text-emerald-300"></i> Personal (Valeria Mendoza)
-                </button>
-            </div>
-
-            <!-- Herramientas de Ingeniería y Base de Datos -->
-            <div class="flex items-center gap-2">
-                <button onclick="app.openEngineeringModal()" class="px-2.5 py-1 rounded-md bg-berry hover:bg-berrydark text-white font-semibold transition flex items-center gap-1.5 text-[11px] shadow-sm border border-pink-300/30">
-                    <i class="fa-solid fa-database"></i> Arquitectura RUP & SQL Server
-                </button>
-                <button onclick="app.confirmResetDatabase()" title="Restaurar datos originales de fábrica" class="px-2 py-1 rounded-md bg-white/10 hover:bg-red-500/80 text-white transition text-[11px]">
-                    <i class="fa-solid fa-rotate-left"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ============================================================================ -->
     <!-- CABECERA PRINCIPAL (HEADER DINÁMICO SEGÚN SESIÓN)                            -->
     <!-- ============================================================================ -->
-    <header class="bg-white/95 backdrop-blur-md border-b border-rosequartz sticky top-[37px] z-40 shadow-sm">
+    <header class="bg-white/95 backdrop-blur-md border-b border-rosequartz sticky top-0 z-40 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <!-- Logo Dulce Mirada -->
             <div onclick="app.handleLogoClick()" class="flex items-center gap-3 cursor-pointer group">
@@ -155,6 +113,7 @@
     <!-- Capa de entidades -->
     <script src="js/models/entidades.js"></script>
     <!-- Persistencia (localStorage) y datos semilla -->
+    <script src="js/data/historial-demo.js"></script>
     <script src="js/data/database-service.js"></script>
     <!-- Capa de control -->
     <script src="js/controllers/control-autenticacion.js"></script>
@@ -162,7 +121,8 @@
     <script src="js/controllers/control-servicios.js"></script>
     <script src="js/controllers/control-horarios.js"></script>
     <script src="js/controllers/control-citas.js"></script>
-    <script src="js/controllers/control-atencion.js"></script>
+    <!-- Componentes de visualización (gráficos SVG) -->
+    <script src="js/components/graficos.js"></script>
     <!-- Capa de interfaz (núcleo + vistas por rol) -->
     <script src="js/app/dulce-mirada-app.js"></script>
     <script src="js/views/publico.js"></script>
@@ -175,7 +135,6 @@
     <script src="js/views/admin-personal.js"></script>
     <script src="js/views/admin-reportes.js"></script>
     <script src="js/views/personal.js"></script>
-    <script src="js/views/ingenieria.js"></script>
     <!-- Arranque -->
     <script src="js/main.js"></script>
 </body>
