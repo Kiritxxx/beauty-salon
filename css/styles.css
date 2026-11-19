@@ -47,3 +47,33 @@ h1, h2, h3, .font-luxury {
 .slot-btn:hover:not(:disabled) {
     transform: translateY(-2px);
 }
+
+/* ── Tablero de reportes (BI) ───────────────────────────────────────────── */
+#bi-tooltip {
+    position: fixed; top: 0; left: 0; z-index: 60; pointer-events: none; opacity: 0;
+    transition: opacity 0.12s ease;
+    background: #4A1528; color: #fff; font-size: 11px; font-weight: 600; line-height: 1.35;
+    padding: 6px 10px; border-radius: 10px; max-width: 260px;
+    box-shadow: 0 8px 24px rgba(74, 21, 40, 0.28);
+}
+.bi-guia { opacity: 0; transition: opacity 0.12s ease; }
+.bi-punto:hover .bi-guia { opacity: 1; }
+.bi-arco { transition: stroke-width 0.15s ease, opacity 0.15s ease; }
+.bi-arco:hover { stroke-width: 26; }
+.bi-celda { transition: transform 0.12s ease; }
+.bi-celda:hover { transform: scale(1.14); outline: 2px solid #4A1528; position: relative; z-index: 1; }
+.bi-card { background: #fff; border: 1px solid #F4D3DC; border-radius: 1.25rem; box-shadow: 0 1px 2px rgba(74, 21, 40, 0.04); }
+.bi-kpi { transition: border-color 0.15s ease, transform 0.15s ease; }
+.bi-kpi:hover { border-color: #E8B4C2; transform: translateY(-1px); }
+.bi-select {
+    background: #fff; border: 1px solid #F4D3DC; border-radius: 0.75rem; padding: 0.45rem 0.75rem;
+    font-size: 12px; font-weight: 600; color: #4A1528;
+}
+.bi-select:focus { outline: 2px solid #9E3356; outline-offset: 1px; }
+button:focus-visible { outline: 2px solid #9E3356; outline-offset: 2px; }
+
+@media print {
+    header, footer, #toast-container, .no-print { display: none !important; }
+    body { background: #fff; }
+    .bi-card { break-inside: avoid; box-shadow: none; }
+}
