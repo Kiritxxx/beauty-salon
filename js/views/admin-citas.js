@@ -152,7 +152,7 @@ Object.assign(DulceMiradaApp.prototype, {
         const servicios = this.db.servicios;
         const personal = this.db.personal;
         const horarios = this.db.horarios;
-        const estados = ['Pendiente', 'Confirmada', 'En Atención', 'Atendida', 'Cancelada'];
+        const estados = ['Pendiente', 'Confirmada', 'Atendida', 'Cancelada'];
 
         this.openModal(`
             <div class="p-6 sm:p-8">
