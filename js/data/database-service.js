@@ -4,10 +4,10 @@
  */
 
 class DatabaseService {
-    static STORAGE_KEY = 'DULCE_MIRADA_DB_2026_V1';
+    static STORAGE_KEY = 'DULCE_MIRADA_DB_2026_V2';
 
     static getInitialSeed() {
-        return {
+        const seed = {
             usuarios: [
                 new Usuario(1, 'rnunez', 'admin123', 'ADMINISTRADOR', 'Activo'),
                 new Usuario(2, 'vmendoza', 'personal123', 'PERSONAL', 'Activo'),
@@ -52,20 +52,29 @@ class DatabaseService {
             ],
             citas: [
                 new Cita(101, 1, 1, 1, 2, '2026-11-05', '10:00', 'Confirmada', 'Clienta solicita curvatura media y tinte hipoalergénico.'),
-                new Cita(102, 2, 1, 3, 5, '2026-11-05', '15:00', 'En Atención', 'Primera puesta de Volumen Ruso 4D.'),
+                new Cita(102, 2, 1, 3, 5, '2026-11-05', '15:00', 'Confirmada', 'Primera puesta de Volumen Ruso 4D.'),
                 new Cita(103, 3, 2, 4, 3, '2026-11-05', '11:00', 'Confirmada', 'Diseño con henna tono castaño oscuro.'),
                 new Cita(104, 1, 2, 5, 6, '2026-10-28', '16:00', 'Atendida', 'Brow lamination completo.'),
                 new Cita(105, 4, 3, 7, 7, '2026-10-30', '17:00', 'Atendida', 'Maquillaje para evento de graduación en Chepén.'),
                 new Cita(106, 2, 3, 6, 1, '2026-11-06', '09:00', 'Pendiente', 'Desea diseño francés clásico en tonos nude.')
             ],
-            atenciones: [
-                new Atencion(1, 104, '2026-10-28', 'Se realizó laminado de cejas con neutralizante suave y suero de keratina. Excelente fijación del vello.', 'Kit Brow Lamination Thuya, Botox Keratina, Aceite de Ricino', 'Completada'),
-                new Atencion(2, 105, '2026-10-30', 'Maquillaje social acabado piel blindada resistente al clima cálido de Chepén + ondas al agua.', 'Primer hidratante, Base Estée Lauder, Fijador Kryolan', 'Completada')
-            ],
-            reportes: [
-                new Reporte(1, 'Resumen General de Citas e Ingresos', '2026-11-01 09:30', 'Total citas evaluadas: 6 | Citas atendidas: 2 | Ingresos proyectados: S/ 520.00')
-            ]
+            reportes: []
         };
+
+        // Historial de demostración para el tablero de reportes
+        seed.citas = seed.citas.concat(generarHistorialCitas(seed.citas));
+        seed.citas.sort((a, b) => (a.fecha + a.hora).localeCompare(b.fecha + b.hora) || a.idCita - b.idCita);
+
+        // Reporte inicial ya emitido, calculado con los datos al 1-nov-2026
+        const alCorte = seed.citas.filter(c => c.fecha <= '2026-11-01');
+        const precioDe = (c) => seed.servicios.find(s => s.idServicio === c.idServicio).precio;
+        const atendidas = alCorte.filter(c => c.estado === 'Atendida');
+        const ingresos = atendidas.reduce((acc, c) => acc + precioDe(c), 0);
+        seed.reportes.push(new Reporte(
+            1, 'Resumen General de Citas e Ingresos', '2026-11-01 09:30',
+            `Citas totales: ${alCorte.length} | Atendidas: ${atendidas.length} | Ingresos realizados: S/ ${ingresos.toFixed(2)}`
+        ));
+        return seed;
     }
 
     static load() {
@@ -76,7 +85,10 @@ class DatabaseService {
                 this.save(seed);
                 return seed;
             }
-            return JSON.parse(raw);
+            const data = JSON.parse(raw);
+            // Migración: el estado «En Atención» ya no existe
+            (data.citas || []).forEach(c => { if (c.estado === 'En Atención') c.estado = 'Confirmada'; });
+            return data;
         } catch (e) {
             console.error('Error cargando almacenamiento local:', e);
             return this.getInitialSeed();
